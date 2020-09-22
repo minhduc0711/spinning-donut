@@ -31,9 +31,6 @@ init_torus, init_normals = generate_torus(num_thetas, num_phis, r1, r2)
 print("\x1b[?25l")
 
 while True:
-    # ev = pygame.event.poll()    # Look for any event
-    # if ev.type == pygame.QUIT:  # Window close button clicked?
-    #     break
     try:
         t0 = time.time()
         # scale donut based on terminal size
