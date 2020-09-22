@@ -1,31 +1,28 @@
 import numpy as np
 
 
-def rotate_about_x_axis(points, angle):
-    rotation_mat = np.array([
+def get_x_rotation_mat(angle):
+    return np.array([
         [1, 0, 0],
         [0, np.cos(angle), np.sin(angle)],
         [0, -np.sin(angle), np.cos(angle)],
     ])
-    return rotation_mat @ points
 
 
-def rotate_about_y_axis(points, angle):
-    rotation_mat = np.array([
+def get_y_rotation_mat(angle):
+    return np.array([
         [np.cos(angle), 0, np.sin(angle)],
         [0, 1, 0],
         [-np.sin(angle), 0, np.cos(angle)],
     ])
-    return rotation_mat @ points
 
 
-def rotate_about_z_axis(points, angle):
-    rotation_mat = np.array([
+def get_z_rotation_mat(angle):
+    return np.array([
         [np.cos(angle), np.sin(angle), 0],
         [-np.sin(angle), np.cos(angle), 0],
         [0, 0, 1],
     ])
-    return rotation_mat @ points
 
 
 def generate_torus(num_thetas, num_phis, r1, r2):
@@ -40,9 +37,9 @@ def generate_torus(num_thetas, num_phis, r1, r2):
     torus_normals = []
     for phi in np.linspace(0, 2 * np.pi, num=num_phis):
         # rotate circle around y-axis to create a torus
-        torus_points.append(rotate_about_y_axis(circle, phi))
+        torus_points.append(get_y_rotation_mat(phi) @ circle)
         # calculate surface normals of torus
-        torus_normals.append(rotate_about_y_axis(circle_normals, phi))
+        torus_normals.append(get_y_rotation_mat(phi) @ circle_normals)
     torus_points = np.concatenate(torus_points, axis=1)
     torus_normals = np.concatenate(torus_normals, axis=1)
     return torus_points, torus_normals
